@@ -8,7 +8,7 @@ GUI::GUI() {
     generalSettingsPanel.add(seedSlider.setup("Seed", 1, 1, 100));
     seedSlider.addListener(this, &GUI::seedSliderChanged);
 
-    generalSettingsPanel.add(tileSizeSlider.setup("Tile size", 50, 20, 80));
+    generalSettingsPanel.add(tileSizeSlider.setup("Tile size", 20, 20, 80));
     tileSizeSlider.addListener(this, &GUI::tileSizeSliderChanged);
 
     noiseSettingsPanel.setup("Noise settings");

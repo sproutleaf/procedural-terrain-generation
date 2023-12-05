@@ -14,8 +14,9 @@ class TerrainElevation {
 		int maxElevation;
 		float flattenElevation;
 		float minNoiseZ, maxNoiseZ;
-		int mapWidth = 3000;
-		int mapHeight = 3000;
+		int mapWidth = 3200;
+		int mapHeight = 2400;
+	
 		vector<vector<float>> elevationMap;
 
 	public:

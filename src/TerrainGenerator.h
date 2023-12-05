@@ -14,8 +14,8 @@ class TerrainGenerator {
 		float lacunarity; 
 		float persistence;
 		int maxElevation;
-		int mapWidth = 3000;
-		int mapHeight = 3000;
+		int mapWidth = 3200;
+		int mapHeight = 2400;
 		vector<vector<float>> elevationMap;
 
 		TerrainElevation terrainElevation;
