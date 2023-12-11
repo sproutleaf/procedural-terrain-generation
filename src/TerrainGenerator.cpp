@@ -106,7 +106,7 @@ void TerrainGenerator::draw() {
     light.setParent(camera);
     ofPushMatrix();
     ofRotateXDeg(-30);
-    ofTranslate(-mapWidth/2, -mapHeight/2 - 100);
+    ofTranslate(-mapWidth/2, -mapHeight/2);
     mesh.drawFaces();
     ofPopMatrix();
     camera.end();

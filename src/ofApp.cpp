@@ -1,42 +1,49 @@
 #include "ofApp.h"
 
 void ofApp::setup() {
+	// Set up Kinect
+	kinect.setRegistration(true);
+	kinect.init();
+	kinect.open();
+	// kinect.setDepthClipping(500, 2500);
+
 	ofBackground(0);
 	guiVisibility = true;
-	
-	// Set up Syphon client
-	client.setup();
-	client.set("Kinect Depth", "crowd-control");
-	
+	readDepth = true;
+
 	// Initialize depth map used to calculate elevation map
-	for (int y = 0; y <= kinectHeight / step; y++) {
+	for (int y = 0; y <= kinect.getHeight(); y++) {
 		vector<float> row;
-		for (int x = 0; x <= kinectWidth / step; x++) {
+		for (int x = 0; x <= kinect.getWidth(); x++) {
 			row.push_back(0);
 		}
 		depthMap.push_back(row);
 	}
-	
-	pixels.setImageType(OF_IMAGE_GRAYSCALE);
 }
 
 void ofApp::update() {
-	// Need to surround the texture with bind & unbind for it to work
-	client.bind();
-	texFromSyphon = client.getTexture();
+	kinect.update();
 	
-	// Convert texture to pixels for processing
-	pixels.clear();
-	depthMap.clear();
-	texFromSyphon.readToPixels(pixels);
-	for (int y = 0; y < pixels.getHeight(); y += step) {
-		for (int x =  0; x < pixels.getWidth(); x += step) {
-			float b = pixels.getColor(x, y).getBrightness();
-			float d = ofMap(b, 0, 255, 0.4, 1.6);
-			depthMap.at(y/step).at(x/step) = d;
+	if (kinect.isFrameNew() && readDepth) {
+		readDepth = false;
+		ofShortPixels rawDepthPix = kinect.getRawDepthPixels();
+		for (int y = 0; y < rawDepthPix.getHeight(); y++) {
+			for (int x =  0; x < rawDepthPix.getWidth(); x++) {
+				// Get the point depth from kinect
+				float b = rawDepthPix.getColor(x, y).r;
+
+				// Mapping point depth to raw elevation value, before performing
+				// calculations
+				float d = ofMap(b, 500, 2500, 0.4, 1.6);
+				if (d < 0.4) {
+					d = 0.4;
+				} else if (d > 1.6) {
+					d = 1.6;
+				}
+				depthMap.at(y).at(x) = d;
+			}
 		}
 	}
-	client.unbind();
 }
 
 void ofApp::draw() {
@@ -50,6 +57,8 @@ void ofApp::draw() {
 	if (guiVisibility) {
 		gui.draw();
 	}
+
+	readDepth = true;
 }
 
 void ofApp::keyPressed(int key) {

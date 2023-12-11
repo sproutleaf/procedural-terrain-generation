@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxGui.h"
-#include "ofxSyphon.h"
+#include "ofxKinect.h"
 
 #include "TerrainGenerator.h"
 #include "GUI.h"
@@ -14,6 +14,7 @@ class ofApp : public ofBaseApp {
 		TerrainGenerator terrainGenerator;
 		GUI gui;
 		bool guiVisibility;
+		bool readDepth;
 
 	public:
 		void setup();
@@ -21,12 +22,6 @@ class ofApp : public ofBaseApp {
 		void draw();
 		void keyPressed(int key);
 	
-		ofxSyphonClient client;
-		ofTexture texFromSyphon;
-		ofPixels pixels;
-	
-		int kinectWidth = 640;
-		int kinectHeight = 480;
-		int step = 4;
+		ofxKinect kinect;
 		vector<vector<float>> depthMap;
 };

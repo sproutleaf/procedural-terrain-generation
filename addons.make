@@ -1,2 +1,2 @@
 ofxGui
-ofxSyphon
+ofxKinect
