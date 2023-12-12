@@ -15,13 +15,15 @@ void ofApp::setup() {
 	drawDepth = false;
 
 	// Initialize depth map used to calculate elevation map
-	for (int y = 0; y <= kinect.getHeight(); y += step) {
+	for (int y = 0; y <= 96; y++) {
 		vector<float> row;
-		for (int x = 0; x <= kinect.getWidth(); x += step) {
+		for (int x = 0; x <= 128; x++) {
 			row.push_back(0);
 		}
 		depthMap.push_back(row);
 	}
+
+	prevDrawTime = ofGetElapsedTimeMillis();
 }
 
 void ofApp::update() {
@@ -34,8 +36,8 @@ void ofApp::update() {
 		
 		// Check if the previous depth is a peak
 		bool prevPeak = false;
-		for (int y = 0; y <= rawDepthPix.getHeight(); y += step) {
-			for (int x =  0; x <= rawDepthPix.getWidth(); x += step) {
+		for (int y = 48; y <= 432; y += step) {
+			for (int x = 100; x <= 612; x += step) {
 				// Get the point depth from kinec t
 				float b = rawDepthPix.getColor(x, y).r;
 
@@ -77,11 +79,17 @@ void ofApp::update() {
 				
 				prevD = d;
 				
-				float finalDepth = 1.1 - d;
+				float finalDepth = 1.05 - d;
 				if (finalDepth > 1) { finalDepth = 0.95; }
+				
+				int pos = (x - 100) / 4;
+				if (pos == 0 || pos == 1 || pos == 127 || pos == 128) {
+					finalDepth = 0.3;
+				}
+
 				// Need to flip the value in the depth map so that closer to
 				// kinect = higher terrain
-				depthMap.at(y / step).at(x / step) = finalDepth;
+				depthMap.at((y - 48) / step).at((x - 100) / step) = finalDepth;
 			}
 		}
 	}
@@ -90,10 +98,14 @@ void ofApp::update() {
 }
 
 void ofApp::draw() {
-	if (drawDepth) {
+	float curDrawTime = ofGetElapsedTimeMillis();
+
+	if (drawDepth && curDrawTime - prevDrawTime > 75) {
 		terrainGenerator.setup(depthMap);
-		terrainGenerator.draw();
+		prevDrawTime = curDrawTime;
 	}
+	
+	terrainGenerator.draw();
 
 	readDepth = !readDepth;
 	drawDepth = !drawDepth;

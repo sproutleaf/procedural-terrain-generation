@@ -27,6 +27,6 @@ class TerrainGenerator {
 		void calculateNormals();
 		void draw();
 	
-		const int tileSize = 20;
+		const int tileSize = 25;
 		const int maxElevation = 500;
 };

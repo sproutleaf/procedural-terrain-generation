@@ -9,9 +9,9 @@ class TerrainColor {
 		ofColor coastColor = ofColor(60, 190, 255);
 		ofColor beachColor = ofColor(240, 240, 170);
 		ofColor plainColor = ofColor(140, 190, 90);
-		ofColor forestColor = ofColor(60, 100, 60);
-		ofColor hillColor = ofColor(150, 150, 150);
-		ofColor mountainColor = ofColor(255, 255, 255);
+		ofColor forestColor = ofColor(14, 140, 0);
+		ofColor hillColor = ofColor(10, 100, 30);
+		ofColor mountainColor = ofColor(0, 70, 20);
 
         float triangleElevation;
 		float oceanElevation = 0.0;

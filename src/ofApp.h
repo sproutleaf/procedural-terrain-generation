@@ -14,9 +14,9 @@ class ofApp : public ofBaseApp {
 		bool readDepth, drawDepth;
 		int step = 4;
 		int nearClip = 500;
-		int farClip = 3500;
-		float maxDepthDiff = 0.1;
-		float incrementRandomness = 0.03;
+		int farClip = 3000;
+		float maxDepthDiff = 0.03;
+		float incrementRandomness = 0.02;
 		float lowestTerrain = 0.05;
 		float highestTerrain = 0.95;
 
@@ -27,4 +27,5 @@ class ofApp : public ofBaseApp {
 	
 		ofxKinect kinect;
 		vector<vector<float>> depthMap;
+		float prevDrawTime;
 };
