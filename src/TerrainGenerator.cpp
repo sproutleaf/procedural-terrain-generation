@@ -5,10 +5,11 @@ TerrainGenerator::TerrainGenerator() {
     ofEnableDepthTest();
     glShadeModel(GL_FLAT);
     mesh.setMode(OF_PRIMITIVE_TRIANGLES);
-    camera.setPosition(ofVec3f(0, -350, 2050));
+    camera.setPosition(ofVec3f(0, 0, 2050));
 }
 
-void TerrainGenerator::setup(GUI::Settings s) {
+void TerrainGenerator::setup(GUI::Settings s, 
+							 const vector<vector<float>>& depthMap) {
     this->seed = s.seed;
     this->tileSize = s.tileSize;
     this->octaves = s.octaves;
@@ -19,8 +20,7 @@ void TerrainGenerator::setup(GUI::Settings s) {
 
     terrainElevation = TerrainElevation(s);
     terrainElevation.initializeMatrix();
-    terrainElevation.calculateNoise();
-    terrainElevation.calculateElevationMap();
+    terrainElevation.calculateElevationMap(depthMap);
     elevationMap = terrainElevation.getElevationMap();
 
     terrainColor = TerrainColor();

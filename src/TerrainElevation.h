@@ -3,6 +3,8 @@
 #include "ofMain.h"
 #include "GUI.h"
 
+#include <vector>
+
 class TerrainElevation {
 	private:
 		int seed;
@@ -24,6 +26,6 @@ class TerrainElevation {
 		TerrainElevation(GUI::Settings s);
 		void initializeMatrix();
 		void calculateNoise();
-		void calculateElevationMap();
+		void calculateElevationMap(const vector<vector<float>>& depthMap);
 		vector<vector<float>> getElevationMap();
 };
