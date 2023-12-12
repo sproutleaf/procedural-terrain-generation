@@ -8,17 +8,8 @@ TerrainGenerator::TerrainGenerator() {
     camera.setPosition(ofVec3f(0, 0, 2050));
 }
 
-void TerrainGenerator::setup(GUI::Settings s, 
-							 const vector<vector<float>>& depthMap) {
-    this->seed = s.seed;
-    this->tileSize = s.tileSize;
-    this->octaves = s.octaves;
-    this->noiseScale = s.noiseScale;
-    this->lacunarity = s.lacunarity;
-    this->persistence = s.persistence;
-    this->maxElevation = s.maxElevation;
-
-    terrainElevation = TerrainElevation(s);
+void TerrainGenerator::setup(const vector<vector<float>>& depthMap) {
+    terrainElevation = TerrainElevation(tileSize, maxElevation);
     terrainElevation.initializeMatrix();
     terrainElevation.calculateElevationMap(depthMap);
     elevationMap = terrainElevation.getElevationMap();

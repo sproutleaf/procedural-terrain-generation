@@ -11,7 +11,6 @@ void ofApp::setup() {
 	kinect.setDepthClipping(nearClip, farClip);
 
 	ofBackground(0);
-	guiVisibility = true;
 	readDepth = true;
 	drawDepth = false;
 
@@ -71,20 +70,10 @@ void ofApp::update() {
 
 void ofApp::draw() {
 	if (drawDepth) {
-		terrainGenerator.setup(gui.getSettings(), depthMap);
+		terrainGenerator.setup(depthMap);
 		terrainGenerator.draw();
-	}
-
-	if (guiVisibility) {
-		gui.draw();
 	}
 
 	readDepth = !readDepth;
 	drawDepth = !drawDepth;
-}
-
-void ofApp::keyPressed(int key) {
-	if (key == 32) { //Space key
-		guiVisibility = !guiVisibility;
-	}
 }

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ofMain.h"
-#include "GUI.h"
 
 class TerrainColor {
     private:
