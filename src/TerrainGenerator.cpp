@@ -2,10 +2,10 @@
 #include <vector>
 
 TerrainGenerator::TerrainGenerator() {
-    ofEnableDepthTest();
-    glShadeModel(GL_FLAT);
-    mesh.setMode(OF_PRIMITIVE_TRIANGLES);
-    camera.setPosition(ofVec3f(0, 0, 2050));
+	ofEnableDepthTest();
+	glShadeModel(GL_FLAT);
+	mesh.setMode(OF_PRIMITIVE_TRIANGLES);
+	camera.setPosition(ofVec3f(0, -350, 2050));
 }
 
 void TerrainGenerator::setup(const vector<vector<float>>& depthMap) {
@@ -96,7 +96,7 @@ void TerrainGenerator::draw() {
     light.enable();
     light.setParent(camera);
     ofPushMatrix();
-    ofRotateXDeg(-30);
+    ofRotateXDeg(-45);
     ofTranslate(-mapWidth/2, -mapHeight/2);
     mesh.drawFaces();
     ofPopMatrix();

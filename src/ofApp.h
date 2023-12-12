@@ -14,11 +14,11 @@ class ofApp : public ofBaseApp {
 		bool readDepth, drawDepth;
 		int step = 4;
 		int nearClip = 500;
-		int farClip = 3000;
+		int farClip = 3500;
 		float maxDepthDiff = 0.1;
 		float incrementRandomness = 0.03;
-		float lowestTerrain = 0.1;
-		float highestTerrain = 0.9;
+		float lowestTerrain = 0.05;
+		float highestTerrain = 0.95;
 
 	public:
 		void setup();

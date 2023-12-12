@@ -1,9 +1,7 @@
 #include "TerrainElevation.h"
 #include <vector>
 
-TerrainElevation::TerrainElevation() {
-
-}
+TerrainElevation::TerrainElevation() {}
 
 TerrainElevation::TerrainElevation(int tileSize, int maxElevation) {
     this->columns = mapWidth / tileSize;
@@ -21,9 +19,7 @@ void TerrainElevation::initializeMatrix() {
     }
 }
 
-void TerrainElevation::calculateElevationMap
-							(const vector<vector<float>>& depthMap) {
-	// Center to corner: sqrt(0.5^2 + 0.5^2)
+void TerrainElevation::calculateElevationMap(const vector<vector<float>>& depthMap) {
     float maxEuclideanDistance = pow(0.5, 0.5);
     for (int y = 0; y <= rows; y++) {
         for (int x = 0; x <= columns; x++) {

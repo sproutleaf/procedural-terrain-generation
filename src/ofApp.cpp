@@ -31,6 +31,9 @@ void ofApp::update() {
 	if (readDepth) {
 		readDepth = !readDepth;
 		ofShortPixels rawDepthPix = kinect.getRawDepthPixels();
+		
+		// Check if the previous depth is a peak
+		bool prevPeak = false;
 		for (int y = 0; y <= rawDepthPix.getHeight(); y += step) {
 			for (int x =  0; x <= rawDepthPix.getWidth(); x += step) {
 				// Get the point depth from kinec t
@@ -40,8 +43,14 @@ void ofApp::update() {
 				// calculations
 				float d = ofMap(b, nearClip, farClip,
 								lowestTerrain, highestTerrain);
-				if (d < lowestTerrain) d = lowestTerrain;
-				else if (d > highestTerrain) d = highestTerrain;
+
+				if (d > highestTerrain) {
+					d = highestTerrain;
+					prevPeak = true;
+				} else {
+					prevPeak = false;
+					if (d < lowestTerrain) d = lowestTerrain;
+				}
 				
 				// If current depth is not the first one in the row, we need to
 				// account for the maximum difference it can have vis-a-vis the
@@ -58,9 +67,21 @@ void ofApp::update() {
 							d = prevD - (maxDepthDiff + randomInc);
 						}
 					}
+					
+					// We don't want the terrain to stay flat at the very top
+					if (depthDiff == 0 && prevPeak) {
+						float randomDec = ofRandom(incrementRandomness);
+						d = prevD - randomDec;
+					}
 				}
-				depthMap.at(y / step).at(x / step) = d;
+				
 				prevD = d;
+				
+				float finalDepth = 1.1 - d;
+				if (finalDepth > 1) { finalDepth = 0.95; }
+				// Need to flip the value in the depth map so that closer to
+				// kinect = higher terrain
+				depthMap.at(y / step).at(x / step) = finalDepth;
 			}
 		}
 	}
